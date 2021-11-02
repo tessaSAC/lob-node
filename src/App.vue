@@ -6,6 +6,7 @@ import {
   CBreadcrumbSeparator,
 } from "@chakra-ui/vue-next";
 import PostcardDesignerVue from "./components/PostcardDesigner.vue";
+
 export default {
   name: "App",
 
@@ -18,6 +19,7 @@ export default {
 
   data: _ => ({
     currentPage: 'PostcardDesigner',
+    LOB_KEY: import.meta.env.VITE_LOB_KEY,
   }),
 
   methods: {
