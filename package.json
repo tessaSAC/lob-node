@@ -1,25 +1,42 @@
 {
   "name": "lob",
-  "description": "Lob API wrapper",
-  "keywords": [
-    "Lob",
-    "Lob-node",
-    "rest",
-    "api",
-    "wrapper",
-    "Lob.com",
-    "printing"
-  ],
   "version": "6.5.2",
+  "description": "Lob API wrapper",
   "author": "tessa",
+  "scripts": {
+    "serve": "vite preview",
+    "build": "vite build",
+    "lint": "eslint .",
+    "coverage": "nyc report --reporter=text",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "dev": "vite",
+    "enforce": "nyc check-coverage --statements 100 --lines 100 --functions 100 --branches 100",
+    "lint:fix": "eslint . --fix",
+    "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version major && git push origin && git push origin --tags",
+    "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version minor && git push origin && git push origin --tags",
+    "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version patch && git push origin && git push origin --tags",
+    "test": "cross-env NODE_ENV=test nyc mocha test --recursive --timeout 30000",
+    "test-no-cover": "cross-env NODE_ENV=test mocha test --recursive --timeout 30000"
+  },
+  "main": "./lib/index",
+  "files": [
+    "lib",
+    "LICENSE.txt"
+  ],
   "dependencies": {
+    "@chakra-ui/vue-next": "^1.0.0-alpha.8",
+    "@vueuse/motion": "^2.0.0-beta.4",
+    "@vueuse/shared": "^6.7.4",
     "bluebird": "^3.0.6",
+    "emotion": "^10.0.27",
     "request": "^2.88.0",
     "vue": "^3.2.16"
   },
   "devDependencies": {
+    "@vitejs/plugin-vue": "^1.9.3",
     "agentkeepalive": "^4.1.0",
     "chai": "^2.2.0",
+    "chakra-loader": "^1.0.2",
     "coveralls": "^3.0.5",
     "cross-env": "^5.2.0",
     "csv-parse": "^4.4.6",
@@ -31,41 +48,30 @@
     "moment": "^2.22.1",
     "nyc": "^15.1.0",
     "uuid": "^3.1.0",
-    "@vitejs/plugin-vue": "^1.9.3",
-    "vite": "^2.6.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/lob/lob-node.git"
+    "vite": "^2.6.4",
+    "vue-cli-plugin-chakra-ui": "~1.0.3"
   },
   "bugs:": "https://github.com/lob/lob-node/issues",
-  "main": "./lib/index",
   "engines": {
     "node": ">= 6.0.0"
   },
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "serve": "vite preview",
-    "test": "cross-env NODE_ENV=test nyc mocha test --recursive --timeout 30000",
-    "test-no-cover": "cross-env NODE_ENV=test mocha test --recursive --timeout 30000",
-    "coverage": "nyc report --reporter=text",
-    "enforce": "nyc check-coverage --statements 100 --lines 100 --functions 100 --branches 100",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version patch && git push origin && git push origin --tags",
-    "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version minor && git push origin && git push origin --tags",
-    "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version major && git push origin && git push origin --tags"
-  },
+  "keywords": [
+    "Lob",
+    "Lob-node",
+    "rest",
+    "api",
+    "wrapper",
+    "Lob.com",
+    "printing"
+  ],
+  "license": "MIT",
   "nyc": {
     "include": [
       "lib/**/*.js"
     ]
   },
-  "files": [
-    "lib",
-    "LICENSE.txt"
-  ],
-  "license": "MIT"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lob/lob-node.git"
+  }
 }

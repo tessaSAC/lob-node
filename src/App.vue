@@ -1,21 +1,34 @@
-<script setup>
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
+<script>
+import {
+  CBreadcrumb,
+  CBreadcrumbItem,
+  CBreadcrumbLink,
+  CBreadcrumbSeparator,
+} from "@chakra-ui/vue-next";
+export default {
+  name: "App",
+
+  components: {
+    CBreadcrumb,
+    CBreadcrumbItem,
+    CBreadcrumbLink,
+    CBreadcrumbSeparator,
+  }
+};
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + Vite" />
+  <c-breadcrumb :add-separator="false">
+    <c-breadcrumb-item>
+      <c-breadcrumb-link href="#">Breadcrumb 1</c-breadcrumb-link>
+      <c-breadcrumb-separator color="tomato" font-size="10px" font-weight="bold" />
+    </c-breadcrumb-item>
+    <c-breadcrumb-item>
+      <c-breadcrumb-link href="#">Breadcrumb 2</c-breadcrumb-link>
+      <c-breadcrumb-separator color="firebrick" font-size="20px" />
+    </c-breadcrumb-item>
+    <c-breadcrumb-item isCurrentPage>
+      <c-breadcrumb-link href="#">Breadcrumb 2</c-breadcrumb-link>
+    </c-breadcrumb-item>
+  </c-breadcrumb>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
