@@ -31,4 +31,6 @@ export default {
       <c-breadcrumb-link href="#">Breadcrumb 2</c-breadcrumb-link>
     </c-breadcrumb-item>
   </c-breadcrumb>
+
+  <router-view />
 </template>

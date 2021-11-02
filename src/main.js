@@ -1,8 +1,9 @@
 import { createApp } from 'vue'
 import App from './App.vue'
+import router from './router'
 import Chakra, { CReset } from '@chakra-ui/vue-next'
 
-const app = createApp(App)
-
-app.use(Chakra, CReset)
-app.mount('#app')
+createApp(App)
+  .use(router)
+  .use(Chakra, CReset)
+  .mount('#app')
