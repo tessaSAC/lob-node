@@ -20,6 +20,7 @@ export default {
   },
 
   data: _ => ({
+    addressEndpoint: 'https://api.lob.com/v1/addresses',
     addressList: [],
     isAddContactFormOpen: false,
     nextPageUrl: '',
@@ -28,12 +29,12 @@ export default {
     newContact: {
       description: '',
       name: '',
-      address1: '',
-      address2: '',
-      city: '',
-      state: '',
-      zip: '',
-      country: ''
+      address_line1: '',
+      address_line2: '',
+      address_city: '',
+      address_state: '',
+      address_zip: '',
+      address_country: ''
     }
   }),
 
@@ -41,69 +42,55 @@ export default {
     newAddressIsValid() {
       return !!(this.newContact.description &&
         this.newContact.name &&
-        this.newContact.address1 &&
-        this.newContact.city &&
-        this.newContact.state &&
-        this.newContact.zip &&
-        this.newContact.country)
+        this.newContact.address_line1 &&
+        this.newContact.address_city &&
+        this.newContact.address_state &&
+        this.newContact.address_zip &&
+        this.newContact.address_country)
     },
   },
 
   methods: {
+    addNewContact() {
+      fetch(this.addressEndpoint, {
+        method: 'POST',
+        // mode: 'cors', // no-cors, *cors, same-origin
+        // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        // credentials: 'same-origin', // include, *same-origin, omit
+        // redirect: 'follow', // manual, *follow, error
+        // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          "Authorization": `Basic ` + btoa(`${LOB_KEY}:`)
+        }),
+        body: JSON.stringify(this.newContact) // body data type must match "Content-Type" header
+      }).then(response => {
+        if (!response.ok) throw new Error(response.status)
+        console.log('Addy added!')
+        this.isAddContactFormOpen = false
+        for (const key in this.newContact) {
+          this.newContact[key] = ''
+        }
+      })
+    },
+
     getAddresses(url) {
-      let endpoint = url ? url : 'https://api.lob.com/v1/addresses'
-      fetch(`${url}/?limit=10`, {
+      let endpoint = url ? url : this.addressEndpoint
+      console.log({ endpoint })
+
+      fetch(endpoint, {
+        method: 'GET',
         headers: new Headers({
           "Authorization": `Basic ` + btoa(`${LOB_KEY}:`)
         }),
       }).then(response => {
-        if (!response.ok) throw new Error(response.status);
-        this.addressList = {
-          "data": [
-            {
-              "id": "adr_e68217bd744d65c8",
-              "description": "Harry - Office",
-              "name": "HARRY ZHANG",
-              "company": "LOB",
-              "phone": "5555555555",
-              "email": "harry@lob.com",
-              "address_line1": "210 KING ST STE 6100",
-              "address_line2": null,
-              "address_city": "SAN FRANCISCO",
-              "address_state": "CA",
-              "address_zip": "94107-1741",
-              "address_country": "UNITED STATES",
-              "metadata": {},
-              "date_created": "2019-08-12T00:16:00.361Z",
-              "date_modified": "2019-08-12T00:16:00.361Z",
-              "object": "address"
-            },
-            {
-              "id": "adr_asdi2y3riuasasoi",
-              "description": "Harry - Home",
-              "name": "Harry Zhang",
-              "company": "Lob",
-              "phone": "5555555555",
-              "email": "harry@lob.com",
-              "metadata": {},
-              "address_line1": "370 WATER ST",
-              "address_line2": "",
-              "address_city": "SUMMERSIDE",
-              "address_state": "PRINCE EDWARD ISLAND",
-              "address_zip": "C1N 1C4",
-              "address_country": "CANADA",
-              "date_created": "2019-09-20T00:14:00.361Z",
-              "date_modified": "2019-09-20T00:14:00.361Z",
-              "object": "address"
-            }
-          ],
-          "object": "list",
-          "next_url": "https://api.lob.com/v1/addresses?limit=2&after=eyJkYXRlT2Zmc2V0IjoiMjAxOS0wOC0wN1QyMTo1OTo0Ni43NjRaIiwiaWRPZmZzZXQiOiJhZHJfODMwYmYwZWFiZGFhYTQwOSJ9",
-          "previous_url": null,
-          "count": 2
-        }.data
-
-        // return response.json();
+        if (!response.ok) throw new Error(response.status)
+        return response.json()
+      }).then(({ data, next_url, previous_url }) => {
+        console.log({ data, next_url, previous_url })
+        this.addressList = data
+        this.nextPageUrl = next_url
+        this.previousPageUrl = previous_url
       })
     },
 
@@ -154,66 +141,66 @@ export default {
             />
           </label>
 
-          <label for="address1">
+          <label for="address_line1">
             Address line 1
             <input
-              v-model="newContact.address1"
-              id="address1"
-              name="address1"
+              v-model="newContact.address_line1"
+              id="address_line1"
+              name="address_line1"
               required
               type="text"
             />
           </label>
 
-          <label for="address2">
+          <label for="address_line2">
             Address line 2 (optional)
             <input
-              v-model="newContact.address2"
-              id="address2"
-              name="address2"
+              v-model="newContact.address_line2"
+              id="address_line2"
+              name="address_line2"
               type="text"
             />
           </label>
 
-          <label for="contact-city">
+          <label for="address_city">
             City
             <input
-              v-model="newContact.city"
-              id="contact-city"
-              name="contact-city"
+              v-model="newContact.address_city"
+              id="address_city"
+              name="address_city"
               required
               type="text"
             />
           </label>
 
-          <label for="contact-state">
+          <label for="address_state">
             State
             <input
-              v-model="newContact.state"
-              id="contact-state"
-              name="contact-state"
+              v-model="newContact.address_state"
+              id="address_state"
+              name="address_state"
               required
               type="text"
             />
           </label>
 
-          <label for="contact-zip">
+          <label for="address_zip">
             Zip code
             <input
-              v-model="newContact.zip"
-              id="contact-zip"
-              name="contact-zip"
+              v-model="newContact.address_zip"
+              id="address_zip"
+              name="address_zip"
               required
               type="text"
             />
           </label>
 
-          <label for="contact-country">
+          <label for="address_country">
             Country
             <input
-              v-model="newContact.country"
-              id="contact-country"
-              name="contact-country"
+              v-model="newContact.address_country"
+              id="address_country"
+              name="address_country"
               required
               type="text"
             />
@@ -224,7 +211,7 @@ export default {
             colorScheme="green"
             :disabled="!newAddressIsValid"
             type="submit"
-            @click="addNewContact"
+            @click.prevent="addNewContact"
           >Add new contact</c-button>
         </c-flex>
       </form>
@@ -252,7 +239,7 @@ export default {
       </c-box>
     </template>
   </c-stack>
-  <c-flex bg="gray.50" align="center" justify="space-between">
+  <c-flex v-if="previousPageUrl || nextPageUrl" bg="gray.50" align="center" justify="space-between">
     <c-button
       v-if="previousPageUrl"
       colorScheme="blue"
