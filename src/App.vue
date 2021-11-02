@@ -5,6 +5,7 @@ import {
   CBreadcrumbLink,
   CBreadcrumbSeparator,
 } from "@chakra-ui/vue-next";
+import PostcardDesignerVue from "./components/PostcardDesigner.vue";
 export default {
   name: "App",
 
@@ -13,24 +14,53 @@ export default {
     CBreadcrumbItem,
     CBreadcrumbLink,
     CBreadcrumbSeparator,
+  },
+
+  data: _ => ({
+    currentPage: 'PostcardDesigner',
+  }),
+
+  methods: {
+    isCurrentPage(pageName) {
+      return this.currentPage === pageName
+    },
+    isAddressBookActive() {
+      return this.isCurrentPage('AddressBook')
+    },
+    isOverviewActive() {
+      return this.isCurrentPage('AppOverview')
+    },
+    isPostcardActive() {
+      return this.isCurrentPage('PostcardDesigner')
+    }
   }
 };
 </script>
 
 <template>
-  <c-breadcrumb :add-separator="false">
-    <c-breadcrumb-item>
-      <c-breadcrumb-link href="#">Breadcrumb 1</c-breadcrumb-link>
-      <c-breadcrumb-separator color="tomato" font-size="10px" font-weight="bold" />
+  <c-breadcrumb>
+    <c-breadcrumb-item :isCurrentPage="isOverviewActive()">
+      <c-breadcrumb-link as="router-link" to="/">App Overview</c-breadcrumb-link>
     </c-breadcrumb-item>
-    <c-breadcrumb-item>
-      <c-breadcrumb-link href="#">Breadcrumb 2</c-breadcrumb-link>
-      <c-breadcrumb-separator color="firebrick" font-size="20px" />
+    <c-breadcrumb-item :isCurrentPage="isPostcardActive()">
+      <c-breadcrumb-link as="router-link" to="/postcard-designer">Postcard Designer</c-breadcrumb-link>
     </c-breadcrumb-item>
-    <c-breadcrumb-item isCurrentPage>
-      <c-breadcrumb-link href="#">Breadcrumb 2</c-breadcrumb-link>
+    <c-breadcrumb-item :isCurrentPage="isAddressBookActive()">
+      <c-breadcrumb-link as="router-link" to="/address-book">Address Book</c-breadcrumb-link>
     </c-breadcrumb-item>
   </c-breadcrumb>
 
   <router-view />
 </template>
+
+<style lang="scss">
+.chakra-breadcrumb__link {
+  color: rgb(67, 97, 153);
+}
+
+.router-link-active {
+  color: rgb(0, 195, 255);
+  font-weight: 630;
+  text-decoration: underline;
+}
+</style>
