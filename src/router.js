@@ -13,6 +13,7 @@ export default createRouter({
     },
     {
       path: '/postcard-designer',
+      name: 'PostcardDesigner',
       component: PostcardDesigner,
     },
     {

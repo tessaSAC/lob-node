@@ -7,6 +7,7 @@ import {
   CStack,
   CText
 } from '@chakra-ui/vue-next'
+import router from '../router'
 const LOB_KEY = import.meta.env.VITE_LOB_KEY
 
 export default {
@@ -96,6 +97,13 @@ export default {
 
     openAddContactForm() {
       this.isAddContactFormOpen = true
+    },
+
+    sendPostcard(id) {
+      router.push({
+        name: 'PostcardDesigner',
+        params: { id },
+      })
     }
   },
 
@@ -231,7 +239,12 @@ export default {
         <c-text :mt="4">{{ `${address_city}, ${address_state} ${address_zip}` }}</c-text>
         <c-text :mt="4">{{ address_country }}</c-text>
 
-        <c-button class="buttonMail" colorScheme="green" variant="outline">
+        <c-button
+          class="buttonMail"
+          colorScheme="green"
+          variant="outline"
+          @click="sendPostcard(id)"
+        >
           Send&nbsp;
           <span class="emphasis">{{ description }}</span>
           &nbsp;a postcard!
