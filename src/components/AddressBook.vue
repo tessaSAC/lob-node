@@ -1,5 +1,12 @@
 <script>
-import { CBox, CButton, CFlex, CHeading, CStack, CText } from '@chakra-ui/vue-next'
+import {
+  CBox,
+  CButton,
+  CFlex,
+  CHeading,
+  CStack,
+  CText
+} from '@chakra-ui/vue-next'
 const LOB_KEY = import.meta.env.VITE_LOB_KEY
 
 export default {
@@ -14,9 +21,33 @@ export default {
 
   data: _ => ({
     addressList: [],
+    isAddContactFormOpen: false,
     nextPageUrl: '',
-    previousPageUrl: ''
+    previousPageUrl: '',
+
+    newContact: {
+      description: '',
+      name: '',
+      address1: '',
+      address2: '',
+      city: '',
+      state: '',
+      zip: '',
+      country: ''
+    }
   }),
+
+  computed: {
+    newAddressIsValid() {
+      return !!(this.newContact.description &&
+        this.newContact.name &&
+        this.newContact.address1 &&
+        this.newContact.city &&
+        this.newContact.state &&
+        this.newContact.zip &&
+        this.newContact.country)
+    },
+  },
 
   methods: {
     getAddresses(url) {
@@ -74,6 +105,10 @@ export default {
 
         // return response.json();
       })
+    },
+
+    openAddContactForm() {
+      this.isAddContactFormOpen = true
     }
   },
 
@@ -86,8 +121,113 @@ export default {
 <template>
   <h1>Address Book</h1>
   <c-stack>
-    <c-box :spacing="5" :p="5" shadow="md" border-width="1px">
-      <c-button colorScheme="purple" class="addContact" variant="ghost">Add new contact</c-button>
+    <c-box :spacing="5" :p="5" shadow="md" border-width="1px" @click="openAddContactForm">
+      <c-button
+        v-if="!isAddContactFormOpen"
+        colorScheme="purple"
+        class="openContactFormButton"
+        variant="ghost"
+        @click="openAddContactForm"
+      >Add new contact</c-button>
+
+      <form v-else>
+        <c-flex class="form" bg="gray.50" direction="column">
+          <label for="contact-description">
+            Description
+            <input
+              v-model="newContact.description"
+              id="contact-description"
+              name="contact-description"
+              required
+              type="text"
+            />
+          </label>
+
+          <label for="contact-name">
+            Name
+            <input
+              v-model="newContact.name"
+              id="contact-name"
+              name="contact-name"
+              required
+              type="text"
+            />
+          </label>
+
+          <label for="address1">
+            Address line 1
+            <input
+              v-model="newContact.address1"
+              id="address1"
+              name="address1"
+              required
+              type="text"
+            />
+          </label>
+
+          <label for="address2">
+            Address line 2 (optional)
+            <input
+              v-model="newContact.address2"
+              id="address2"
+              name="address2"
+              type="text"
+            />
+          </label>
+
+          <label for="contact-city">
+            City
+            <input
+              v-model="newContact.city"
+              id="contact-city"
+              name="contact-city"
+              required
+              type="text"
+            />
+          </label>
+
+          <label for="contact-state">
+            State
+            <input
+              v-model="newContact.state"
+              id="contact-state"
+              name="contact-state"
+              required
+              type="text"
+            />
+          </label>
+
+          <label for="contact-zip">
+            Zip code
+            <input
+              v-model="newContact.zip"
+              id="contact-zip"
+              name="contact-zip"
+              required
+              type="text"
+            />
+          </label>
+
+          <label for="contact-country">
+            Country
+            <input
+              v-model="newContact.country"
+              id="contact-country"
+              name="contact-country"
+              required
+              type="text"
+            />
+          </label>
+
+          <c-button
+            class="addContactButton"
+            colorScheme="green"
+            :disabled="!newAddressIsValid"
+            type="submit"
+            @click="addNewContact"
+          >Add new contact</c-button>
+        </c-flex>
+      </form>
     </c-box>
     <template v-if="addressList.length">
       <c-box
@@ -129,11 +269,28 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-.addContact {
+.chakra-flex.form {
+  margin-top: 0;
+  padding: 1rem;
+}
+label {
+  padding-bottom: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  // max-width: 500px;
+}
+
+.openContactFormButton {
   border: none; // No docs for @chakra-ui/vue-next styles
   font-size: 1.2rem;
   color: darkgrey;
   text-decoration: pink underline;
+}
+
+.addContactButton {
+  margin-top: 0.5rem;
+  max-width: 300px;
+  align-self: flex-end;
 }
 
 h1,
