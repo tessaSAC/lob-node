@@ -193,7 +193,8 @@ export default {
     <div class="box address">
       <c-heading as="h2" size="2">Recipient address</c-heading>
       <template v-if="recipientAddress.id">
-        <c-heading size="3" as="h3">{{ recipientAddress.name }}</c-heading>
+        <c-heading size="3" as="h3">{{ recipientAddress.description }}</c-heading>
+        <c-text :mt="4">{{ recipientAddress.name }}</c-text>
         <c-text :mt="4">{{ recipientAddress.address_line1 }}</c-text>
         <c-text :mt="4">{{ recipientAddress.address_line2 }}</c-text>
         <c-text
