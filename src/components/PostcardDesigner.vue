@@ -3,18 +3,26 @@ import router from '../router'
 import { v4 as uuidv4 } from 'uuid'
 
 import {
+  CAlert,
+  CAlertDescription,
+  CAlertIcon,
+  CAlertTitle,
   CBox,
   CButton,
   CHeading,
-  CText
+  CText,
 } from '@chakra-ui/vue-next'
 
 export default {
   components: {
+    CAlert,
     CBox,
     CButton,
     CHeading,
-    CText
+    CText,
+    CAlertDescription,
+    CAlertIcon,
+    CAlertTitle,
   },
 
   props: ['ADDRESS_ENDPOINT', 'LOB_KEY', 'recipientAddressId'],
@@ -24,6 +32,7 @@ export default {
     postcardFront_beach: import.meta.env.VITE_POSTCARD_TEMPLATE_FRONT_BEACH,
     postcardFront_jungle: import.meta.env.VITE_POSTCARD_TEMPLATE_FRONT_JUNGLE,
     idempotencyKey: uuidv4(),
+    pdf: '',
 
     postcard: {
       message: '',
@@ -117,6 +126,8 @@ export default {
     },
 
     previewPostcard() {
+      this.pdf = ''
+
       const postcardData = {
         description: 'Preview postcard',
         to: this.recipientAddressId,
@@ -147,8 +158,8 @@ export default {
 
         return response.json()
       }).then(({ url }) => {
-        console.log({ url })
-        window.open(url) //TODO figure this out
+        console.log(url)
+        this.pdf = url
       })
     },
   },
@@ -161,6 +172,10 @@ export default {
 </script>
 
 <template>
+  <c-alert v-if="pdf" status="success">
+    <c-alert-icon />Postcard successfuly created.&nbsp;
+    <a :href="pdf" target="_blank">View PDF preview</a>
+  </c-alert>
   <form class="wrapper">
     <div class="box title">
       <c-heading as="h1">Postcard Designer</c-heading>
@@ -189,6 +204,7 @@ export default {
         <c-button
           class="buttonAddress"
           colorScheme="purple"
+          type="button"
           variant="outline"
           @click="goToAddressBook"
         >Change recipient</c-button>
@@ -244,7 +260,7 @@ export default {
       type="submit"
       variant="solid"
       @click.prevent="previewPostcard"
-    >Preview postcard</c-button>
+    >Create postcard preview</c-button>
   </form>
 </template>
 
