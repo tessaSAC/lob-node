@@ -17,13 +17,15 @@ export default {
   },
 
   data: _ => ({
+    currentPage: 'AppOverview',
+
+    recipientAddressId: {},
+
     ADDRESS_ENDPOINT: 'https://api.lob.com/v1/addresses',
     LOB_KEY: import.meta.env.VITE_LOB_KEY,
     POSTCARD_BACK: import.meta.env.VITE_POSTCARD_TEMPLATE_BACK,
     POSTCARD_FRONT_BEACH: import.meta.env.VITE_POSTCARD_TEMPLATE_FRONT_BEACH,
     POSTCARD_FRONT_JUNGLE: import.meta.env.VITE_POSTCARD_TEMPLATE_FRONT_JUNGLE,
-    currentPage: 'PostcardDesigner',
-    recipientAddressId: {},
   }),
 
   methods: {
@@ -51,26 +53,30 @@ export default {
 </script>
 
 <template>
-  <c-breadcrumb>
-    <c-breadcrumb-item :isCurrentPage="isOverviewActive()">
-      <c-breadcrumb-link as="router-link" to="/">App Overview</c-breadcrumb-link>
-    </c-breadcrumb-item>
-    <c-breadcrumb-item :isCurrentPage="isPostcardActive()">
-      <c-breadcrumb-link as="router-link" to="/postcard-designer">Postcard Designer</c-breadcrumb-link>
-    </c-breadcrumb-item>
-    <c-breadcrumb-item :isCurrentPage="isAddressBookActive()">
-      <c-breadcrumb-link as="router-link" to="/address-book">Address Book</c-breadcrumb-link>
-    </c-breadcrumb-item>
-  </c-breadcrumb>
+  <div class="main">
+    <c-breadcrumb>
+      <c-breadcrumb-item :isCurrentPage="isOverviewActive()">
+        <c-breadcrumb-link as="router-link" to="/">App Overview</c-breadcrumb-link>
+      </c-breadcrumb-item>
+      <c-breadcrumb-item :isCurrentPage="isPostcardActive()">
+        <c-breadcrumb-link as="router-link" to="/postcard-designer">Postcard Designer</c-breadcrumb-link>
+      </c-breadcrumb-item>
+      <c-breadcrumb-item :isCurrentPage="isAddressBookActive()">
+        <c-breadcrumb-link as="router-link" to="/address-book">Address Book</c-breadcrumb-link>
+      </c-breadcrumb-item>
+    </c-breadcrumb>
 
-  <router-view
-    :ADDRESS_ENDPOINT="ADDRESS_ENDPOINT"
-    :LOB_KEY="LOB_KEY"
-    :POSTCARD_BACK="POSTCARD_BACK"
-    :POSTCARD_FRONT_BEACH="POSTCARD_FRONT_BEACH"
-    :POSTCARD_FRONT_JUNGLE="POSTCARD_FRONT_JUNGLE"
-    :recipientAddressId="recipientAddressId"
-  />
+    <div class="view">
+      <router-view
+        :ADDRESS_ENDPOINT="ADDRESS_ENDPOINT"
+        :LOB_KEY="LOB_KEY"
+        :POSTCARD_BACK="POSTCARD_BACK"
+        :POSTCARD_FRONT_BEACH="POSTCARD_FRONT_BEACH"
+        :POSTCARD_FRONT_JUNGLE="POSTCARD_FRONT_JUNGLE"
+        :recipientAddressId="recipientAddressId"
+      />
+    </div>
+  </div>
 </template>
 
 <style lang="scss">
@@ -82,5 +88,13 @@ export default {
   color: rgb(0, 195, 255);
   font-weight: 630;
   text-decoration: underline;
+}
+
+.main {
+  padding: 2rem;
+
+  .view {
+    margin: 2rem;
+  }
 }
 </style>

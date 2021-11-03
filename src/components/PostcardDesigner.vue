@@ -16,13 +16,13 @@ import {
 export default {
   components: {
     CAlert,
+    CAlertDescription,
+    CAlertIcon,
+    CAlertTitle,
     CBox,
     CButton,
     CHeading,
     CText,
-    CAlertDescription,
-    CAlertIcon,
-    CAlertTitle,
   },
 
   props: ['ADDRESS_ENDPOINT', 'LOB_KEY', 'recipientAddressId'],
@@ -291,7 +291,6 @@ textarea {
 }
 
 .wrapper {
-  margin: 2rem;
   display: grid;
   grid-gap: 10px;
   grid-template-columns: [col1-start] 1fr [col2-start] 1fr [col2-end];

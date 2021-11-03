@@ -115,7 +115,7 @@ export default {
 </script>
 
 <template>
-  <h1>Address Book</h1>
+  <c-heading as="h1">Address Book</c-heading>
   <c-stack>
     <c-box :spacing="5" :p="5" shadow="md" border-width="1px" @click="openAddContactForm">
       <c-button
