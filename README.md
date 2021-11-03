@@ -6,8 +6,9 @@
 
 This web app covers usage of several of Lob's APIs and features, including its `postcards`, `addresses`, and `templates` endpoints.
 
-Users can add and browse existing addresses in the Address Book tab and create postcards to send them in Postcard Desginer.
+Users can add and browse existing addresses in the [Address Book](https://postcard-designer.netlify.app/address-book) tab and create postcards to send them in [Postcard Designer](https://postcard-designer.netlify.app/postcard-designer).
 
+You can check out the deployed app [here](https://postcard-designer.netlify.app).
 
 
 ## Technologies used
@@ -51,19 +52,3 @@ VITE_POSTCARD_TEMPLATE_FRONT_JUNGLE = your_front_jungle_template_key
 Finally, run
 `npm run dev` and navigate to
 [http://localhost:3000](http://localhost:3000) to see the app in action!
-
-</template>
-
-<style scoped>
-h1 [
-margin: 3rem 0 0;
-]
-
-h2 [
-margin-top: 2.5rem;
-]
-
-a [
-color: #42b983;
-]
-</style>

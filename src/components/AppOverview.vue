@@ -25,7 +25,12 @@ export default {
   <c-text :mt="4">
     Users can add and browse existing addresses in the
     <router-link to="/address-book">Address Book</router-link>&nbsp;tab and create postcards to send them in
-    <router-link to="/postcard-designer">Postcard Desginer</router-link>.
+    <router-link to="/postcard-designer">Postcard Designer</router-link>.
+  </c-text>
+
+  <c-text :mt="4">
+    You can check out the deployed app
+    <a href="https://postcard-designer.netlify.app">here</a>.
   </c-text>
 
   <c-heading as="h2" size="2">Technologies used</c-heading>
