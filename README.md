@@ -21,7 +21,7 @@ This app was built with [Vue.js 3](https://v3.vuejs.org), [Vue Router](https://r
 Because Vite expects and/or transpiles all modules to be in the ESM format, using it engendered additional challenges including relying on the [undocumented
 `next` version of Chakra](https://next.vue.chakra-ui.com) and forgoing the use of the [Lob "SDK"](https://docs.lob.com/#tag/SDKs-and-Tools).
 
-It also seems like there may not be a way to programmatically show the user a preview of their new postcard due to the link's signature at least at present; instead the user needs to refresh the page upon navigating to it.
+It also seems like there may not be a way to programmatically show the user a preview of their new postcard without setting up webhooks or using hacky workarounds, because the PDF link is returned before the postcard has been generated.
 
 
 Last but certainly not least, this assignment comprised a large number of tasks, requirements, and considerations, and instructions and key information was scattered across multiple places within the

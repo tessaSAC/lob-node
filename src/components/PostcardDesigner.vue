@@ -159,7 +159,9 @@ export default {
         return response.json()
       }).then(({ url }) => {
         console.log(url)
-        this.pdf = url
+        setTimeout(() => {
+          this.pdf = url
+        }, 2000)  // Hack to make sure postcard is ready
       })
     },
   },

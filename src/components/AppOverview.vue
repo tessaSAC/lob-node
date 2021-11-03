@@ -60,7 +60,7 @@ export default {
 
   <c-text
     :mt="4"
-  >It also seems like there may not be a way to programmatically show the user a preview of their new postcard due to the link's signature at least at present; instead the user needs to refresh the page upon navigating to it.</c-text>
+  >It also seems like there may not be a way to programmatically show the user a preview of their new postcard without setting up webhooks or using hacky workarounds, because the PDF link is returned before the postcard has been generated.</c-text>
 
   <c-text :mt="4">
     Last but certainly not least, this assignment comprised a large number of tasks, requirements, and considerations, and instructions and key information was scattered across multiple places within the
