@@ -266,6 +266,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
+.chakra-alert {
+  width: inherit;
+}
+
 h1 {
   margin: 1rem 0;
 }
