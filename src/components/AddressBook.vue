@@ -1,4 +1,6 @@
 <script>
+import router from '../router'
+
 import {
   CBox,
   CButton,
@@ -7,8 +9,6 @@ import {
   CStack,
   CText
 } from '@chakra-ui/vue-next'
-import router from '../router'
-const LOB_KEY = import.meta.env.VITE_LOB_KEY
 
 export default {
   components: {
@@ -20,8 +20,9 @@ export default {
     CText
   },
 
+  props: ['ADDRESS_ENDPOINT', 'LOB_KEY'],
+
   data: _ => ({
-    addressEndpoint: 'https://api.lob.com/v1/addresses',
     addressList: [],
     isAddContactFormOpen: false,
     nextPageUrl: '',
@@ -40,7 +41,7 @@ export default {
   }),
 
   computed: {
-    newAddressIsValid() {
+    isNewAddressValid() {
       return !!(this.newContact.description &&
         this.newContact.name &&
         this.newContact.address_line1 &&
@@ -53,7 +54,7 @@ export default {
 
   methods: {
     addNewContact() {
-      fetch(this.addressEndpoint, {
+      fetch(this.ADDRESS_ENDPOINT, {
         method: 'POST',
         // mode: 'cors', // no-cors, *cors, same-origin
         // cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -62,7 +63,7 @@ export default {
         // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
         headers: new Headers({
           'Content-Type': 'application/json',
-          "Authorization": `Basic ` + btoa(`${LOB_KEY}:`)
+          "Authorization": `Basic ` + btoa(`${this.LOB_KEY}:`)
         }),
         body: JSON.stringify(this.newContact) // body data type must match "Content-Type" header
       }).then(response => {
@@ -76,13 +77,13 @@ export default {
     },
 
     getAddresses(url) {
-      let endpoint = url ? url : this.addressEndpoint
+      let endpoint = url ? url : this.ADDRESS_ENDPOINT
       console.log({ endpoint })
 
       fetch(endpoint, {
         method: 'GET',
         headers: new Headers({
-          "Authorization": `Basic ` + btoa(`${LOB_KEY}:`)
+          "Authorization": `Basic ` + btoa(`${this.LOB_KEY}:`)
         }),
       }).then(response => {
         if (!response.ok) throw new Error(response.status)
@@ -217,7 +218,7 @@ export default {
           <c-button
             class="addContactButton"
             colorScheme="green"
-            :disabled="!newAddressIsValid"
+            :disabled="!isNewAddressValid"
             type="submit"
             @click.prevent="addNewContact"
           >Add new contact</c-button>

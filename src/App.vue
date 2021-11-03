@@ -17,7 +17,13 @@ export default {
   },
 
   data: _ => ({
+    ADDRESS_ENDPOINT: 'https://api.lob.com/v1/addresses',
+    LOB_KEY: import.meta.env.VITE_LOB_KEY,
+    POSTCARD_BACK: import.meta.env.VITE_POSTCARD_TEMPLATE_BACK,
+    POSTCARD_FRONT_BEACH: import.meta.env.VITE_POSTCARD_TEMPLATE_FRONT_BEACH,
+    POSTCARD_FRONT_JUNGLE: import.meta.env.VITE_POSTCARD_TEMPLATE_FRONT_JUNGLE,
     currentPage: 'PostcardDesigner',
+    recipientAddressId: {},
   }),
 
   methods: {
@@ -33,8 +39,15 @@ export default {
     isPostcardActive() {
       return this.isCurrentPage('PostcardDesigner')
     }
+  },
+
+  watch: {
+    $route(to, from) {
+      if (to?.params?.id) this.recipientAddressId = to.params.id
+      else this.recipientAddressId = ''
+    }
   }
-};
+}
 </script>
 
 <template>
@@ -50,7 +63,14 @@ export default {
     </c-breadcrumb-item>
   </c-breadcrumb>
 
-  <router-view />
+  <router-view
+    :ADDRESS_ENDPOINT="ADDRESS_ENDPOINT"
+    :LOB_KEY="LOB_KEY"
+    :POSTCARD_BACK="POSTCARD_BACK"
+    :POSTCARD_FRONT_BEACH="POSTCARD_FRONT_BEACH"
+    :POSTCARD_FRONT_JUNGLE="POSTCARD_FRONT_JUNGLE"
+    :recipientAddressId="recipientAddressId"
+  />
 </template>
 
 <style lang="scss">
