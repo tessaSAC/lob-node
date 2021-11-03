@@ -1,160 +1,69 @@
-# lob-node
+# App overview
 
-[downloads-image]: http://img.shields.io/npm/dm/lob.svg
-[npm-url]: https://npmjs.org/package/lob
-[npm-image]: https://badge.fury.io/js/lob.svg
-[travis-url]: https://travis-ci.org/lob/lob-node
-[travis-image]: https://travis-ci.org/lob/lob-node.svg?branch=master
-[depstat-url]: https://david-dm.org/Lob/Lob-node
-[depstat-image]: https://david-dm.org/Lob/Lob-node.svg
 
-[![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url]  [![Build Status](https://travis-ci.org/lob/lob-node.svg?branch=master)](https://travis-ci.org/lob/lob-node) [![Dependency Status](https://david-dm.org/lob/lob-node.svg)](https://david-dm.org/lob/lob-node) [![Dev Dependency Status](https://david-dm.org/lob/lob-node/dev-status.svg)](https://david-dm.org/lob/lob-node) [![Coverage Status](https://coveralls.io/repos/lob/lob-node/badge.svg?branch=master)](https://coveralls.io/r/lob/lob-node?branch=master)
 
-Node.js wrapper for the [Lob.com](https://lob.com) API. See full Lob.com documentation [here](https://lob.com/docs/node). For best results, be sure that you're using [the latest version](https://lob.com/docs/node#version) of the Lob API and the latest version of the Node wrapper.
+## About the app
 
-## Table of Contents
+This web app covers usage of several of Lob's APIs and features, including its `postcards`, `addresses`, and `templates` endpoints.
 
-- [Table of Contents](#table-of-contents)
-- [Getting Started](#getting-started)
-  - [Registration](#registration)
-  - [Installation](#installation)
-  - [Usage](#usage)
-  - [Options](#options)
-- [Examples](#examples)
-    - [Accessing Response Headers](#accessing-response-headers)
-- [API Documentation](#api-documentation)
-- [Contributing](#contributing)
-- [Testing](#testing)
+Users can add and browse existing addresses in the Address Book tab and create postcards to send them in Postcard Desginer.
 
-## Getting Started
 
-Here's a general overview of the Lob services available, click through to read more.
 
-- [Postcards API](https://lob.com/products/print-mail/postcards)
-- [Letters API](https://lob.com/products/print-mail/letters)
-- [Checks API](https://lob.com/products/print-mail/checks)
-- [Address Verification API](https://lob.com/products/address-verification)
+## Technologies used
 
-Please read through the official [API Documentation](#api-documentation) to get a complete sense of what to expect from each endpoint.
+This app was built with [Vue.js 3](https://v3.vuejs.org), [Vue Router](https://router.vuejs.org), and [Vite](https://vitejs.dev), and leveraged [Chakra UI](https://vue.chakra-ui.com) to keep components as accessible as reasonably possible within the challenge's bounds.
 
-### Registration
 
-First, you will need to first create an account at [Lob.com](https://dashboard.lob.com/#/register) and obtain your Test and Live API Keys.
+## Challenges
 
-Once you have created an account, you can access your API Keys from the [Settings Panel](https://dashboard.lob.com/#/settings).
+Because Vite expects and/or transpiles all modules to be in the ESM format, using it engendered additional challenges including relying on the [undocumented
+`next` version of Chakra](https://next.vue.chakra-ui.com) and forgoing the use of the [Lob "SDK"](https://docs.lob.com/#tag/SDKs-and-Tools).
 
-### Installation
+It also seems like there may not be a way to programmatically show the user a preview of their new postcard due to the link's signature at least at present; instead the user needs to refresh the page upon navigating to it.
 
-lob-node can be installed through the npm:
 
-```
-$ npm install lob
+Last but certainly not least, this assignment comprised a large number of tasks, requirements, and considerations, and instructions and key information was scattered across multiple places within the
+[Dashboard](https://dashboard.lob.com),[API Docs](https://docs.lob.com), and
+[Guides](https://www.lob.com/guides), leading to a disjointed developer experience, especially developing a client-side app without the SDK. In particular, the templating task was written about in an oddly non-technical way and key information was obscured by Lob's information architecture. Having an overview page within the app also seems like an unusual choice.
+
+
+
+## Running the app
+
+To run the app locally, clone the repo and in its directory, run
+`npm i` to install the relevant libraries.
+
+Then create a `.env.local` file in the project's top-level folder with the following variables [replacing with your own keys where appropriate](
+
+```bash
+# .env.local
+VITE_LOB_KEY = your_test_key
+VITE_POSTCARD_TEMPLATE_BACK = your_back_template_key
+VITE_POSTCARD_TEMPLATE_FRONT_BEACH = your_front_beach_template_key
+VITE_POSTCARD_TEMPLATE_FRONT_JUNGLE = your_front_jungle_template_key
 ```
 
-To build and install from the latest source:
+(This guide presumes you already have your own
+[postcard templates](https://www.lob.com/guides#html_and_merge) created.)
 
-```
-$ git clone git@github.com:lob/lob-node.git
-$ npm install
-```
 
-### Usage
-```javascript
-const Lob = require('lob')('YOUR API KEY');
+Finally, run
+`npm run dev` and navigate to
+[http://localhost:3000](http://localhost:3000) to see the app in action!
 
-// change api version
-const Lob = require('lob')('YOUR API KEY', { apiVersion: 'API-VERSION' });
+</template>
 
-// change internal defaults (e.g. host)
-const options = {/* see options below */};
-const Lob = require('lob')('YOUR API KEY', options);
+<style scoped>
+h1 [
+margin: 3rem 0 0;
+]
 
-// you can also just pass options
-const options = { apiKey: 'foo', host: 'bar' };
-const Lob = require('lob')(options);
+h2 [
+margin-top: 2.5rem;
+]
 
-// callback pattern
-Lob.addresses.list((err, body) => {
-  if (err) return callback(err);
-  return callback(null, body.data);
-});
-```
-
-Additionally, every resource method returns a promise, so you don't have to use the regular callback. E.g.
-
-```javascript
-const Lob = require('lob')('YOUR API KEY');
-
-Lob.addresses.list()
-.then((res) => {
-  console.log(res.data);
-})
-.catch((e) => {
-  console.log(e);
-});
-```
-
-### Options
-The Lob constructor accepts an `options` object which may contain one or more of the following options:
-
-* `apiVersion` - Optionally set the version of the Lob API to use. Defaults to latest.
-* `host` - Override the default host API calls are issued to.
-* `userAgent` - Override the default userAgent.
-* `headers` - Edit the headers sent in all API calls.
-* `agent` - Override the default HTTP agent used to make requests.
-
-## Examples
-
-We've provided various examples for you to try out [here](https://github.com/lob/lob-node/tree/master/examples).
-
-There are simple scripts to demonstrate how to create all the core Lob objects (checks, letters, postcards. etc.) as well as more complex examples that utilize other libraries and external files.
-
-#### Accessing Response Headers
-
-You can access response headers via a hidden `_response` property.
-
-```javascript
-Lob.addresses.list()
-.then((res) => {
-  res._response.headers['content-type'];
-  // => "application/json; charset=utf-8"
-});
-```
-
-You can also access headers from errors.
-
-```javascript
-Lob.addresses.retrieve('adr_bad_id')
-.catch((err) => {
-  err._response.headers['content-type'];
-  // => "application/json; charset=utf-8"
-});
-```
-
-## API Documentation
-
-The full and comprehensive documentation of Lob's APIs is available [here](https://docs.lob.com/).
-
-## Contributing
-
-To contribute, please see the [CONTRIBUTING.md](https://github.com/lob/lob-node/blob/master/CONTRIBUTING.md) file.
-
-## Testing
-
-To run the tests with coverage:
-
-```
-LOB_API_KEY=YOUR_TEST_API_KEY npm test
-```
-
-To run the tests without coverage:
-
-```
-LOB_API_KEY=YOUR_TEST_API_KEY npm run test-no-cover
-```
-
-=======================
-
-Copyright &copy; 2013 Lob.com
-
-Released under the MIT License, which can be found in the repository in `LICENSE.txt`.
+a [
+color: #42b983;
+]
+</style>
