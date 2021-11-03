@@ -7,74 +7,28 @@
     "serve": "vite preview",
     "build": "vite build",
     "lint": "eslint .",
-    "coverage": "nyc report --reporter=text",
-    "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "dev": "vite",
-    "enforce": "nyc check-coverage --statements 100 --lines 100 --functions 100 --branches 100",
-    "lint:fix": "eslint . --fix",
-    "release:major": "changelog -M && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version major && git push origin && git push origin --tags",
-    "release:minor": "changelog -m && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version minor && git push origin && git push origin --tags",
-    "release:patch": "changelog -p && git add CHANGELOG.md && git commit -m 'updated CHANGELOG.md' && npm version patch && git push origin && git push origin --tags",
-    "test": "cross-env NODE_ENV=test nyc mocha test --recursive --timeout 30000",
-    "test-no-cover": "cross-env NODE_ENV=test mocha test --recursive --timeout 30000"
+    "lint:fix": "eslint . --fix"
   },
-  "main": "./lib/index",
-  "files": [
-    "lib",
-    "LICENSE.txt"
-  ],
   "dependencies": {
     "@chakra-ui/vue-next": "^1.0.0-alpha.8",
     "@vueuse/motion": "^2.0.0-beta.4",
     "@vueuse/shared": "^6.7.4",
-    "bluebird": "^3.0.6",
-    "emotion": "^10.0.27",
-    "request": "^2.88.0",
     "vue": "^3.2.16",
     "vue-router": "^4.0.12"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.3",
     "@vue/cli-plugin-router": "~4.5.0",
-    "agentkeepalive": "^4.1.0",
-    "chai": "^2.2.0",
     "chakra-loader": "^1.0.2",
-    "coveralls": "^3.0.5",
-    "cross-env": "^5.2.0",
-    "csv-parse": "^4.4.6",
     "eslint": "^8.1.0",
     "eslint-config-lob": "^1.0.1",
-    "generate-changelog": "^1.0.0",
-    "json-2-csv": "^3.14.4",
-    "mocha": "^9.1.3",
-    "moment": "^2.22.1",
-    "nyc": "^15.1.0",
     "sass": "^1.43.4",
     "uuid": "^3.4.0",
     "vite": "^2.6.4",
     "vue-cli-plugin-chakra-ui": "~1.0.3"
   },
-  "bugs:": "https://github.com/lob/lob-node/issues",
   "engines": {
     "node": ">= 6.0.0"
-  },
-  "keywords": [
-    "Lob",
-    "Lob-node",
-    "rest",
-    "api",
-    "wrapper",
-    "Lob.com",
-    "printing"
-  ],
-  "license": "MIT",
-  "nyc": {
-    "include": [
-      "lib/**/*.js"
-    ]
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/lob/lob-node.git"
   }
 }
